@@ -1,2 +1,1 @@
-# vndr
-marketplace
+# VNDR
