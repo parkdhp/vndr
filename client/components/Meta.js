@@ -8,6 +8,6 @@ const Meta = () => (
     <link rel="stylesheet" type="text/css" href="/static/nprogress.css" />
     <title>VNDR</title>
   </Head>
-)
+);
 
 export default Meta;
