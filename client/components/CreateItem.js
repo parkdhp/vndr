@@ -36,6 +36,19 @@ class CreateItem extends Component {
               onChange={this.handleChange}
             />
           </label>
+
+          <label htmlFor="price">
+            Price
+            <input
+              type="number"
+              id="price"
+              name="price"
+              placeholder="Price"
+              required
+              value={price}
+              onChange={this.handleChange}
+            />
+          </label>
         </fieldset>
       </Form>
     );
