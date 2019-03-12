@@ -22,7 +22,12 @@ class CreateItem extends Component {
   render() {
     const { title, description, image, largeImage, price } = this.state;
     return (
-      <Form>
+      <Form
+        onSubmit={e => {
+          e.preventDefault();
+          console.log(this.state);
+        }}
+      >
         <fieldset>
           <label htmlFor="title">
             Title
@@ -61,6 +66,7 @@ class CreateItem extends Component {
               onChange={this.handleChange}
             />
           </label>
+          <button type="submit">Submit</button>
         </fieldset>
       </Form>
     );
