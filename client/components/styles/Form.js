@@ -3,11 +3,9 @@ import styled, { keyframes } from 'styled-components';
 const loading = keyframes`
   from {
     background-position: 0 0;
-    /* rotate: 0; */
   }
   to {
     background-position: 100% 100%;
-    /* rotate: 360deg; */
   }
 `;
 
@@ -62,6 +60,7 @@ const Form = styled.form`
         #ff3019 100%
       );
     }
+    /* if aria busy, show loading bar */
     &[aria-busy='true']::before {
       background-size: 50% auto;
       animation: ${loading} 0.5s linear infinite;
