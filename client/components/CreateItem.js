@@ -5,10 +5,38 @@ import Form from './styles/Form';
 import formatMoney from '../lib/formatMoney';
 
 class CreateItem extends Component {
+  state = {
+    title: '',
+    description: '',
+    image: '',
+    largeImage: '',
+    price: 0,
+  };
+
+  handleChange = e => {
+    const { name, type, value } = e.target;
+    const val = type === 'number' ? parseFloat(value) : value;
+    this.setState({ [name]: val });
+  };
+
   render() {
+    const { title, description, image, largeImage, price } = this.state;
     return (
       <Form>
-        <h2>Sell an Item</h2>
+        <fieldset>
+          <label htmlFor="title">
+            Title
+            <input
+              type="text"
+              id="title"
+              name="title"
+              placeholder="Title"
+              required
+              value={title}
+              onChange={this.handleChange}
+            />
+          </label>
+        </fieldset>
       </Form>
     );
   }
