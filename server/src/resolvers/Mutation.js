@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { randomBytes } = require('crypto');
 const { promisify } = require('util');
+const { transport, makeANiceEmail } = require('../mail');
 
 const Mutations = {
   async createItem(parent, args, ctx, info) {
@@ -110,6 +111,16 @@ const Mutations = {
       data: { resetToken, resetTokenExpiry },
     });
     // email the reset token
+    const mailRes = await transport.sendMail({
+      from: 'support@vndr.com',
+      to: user.email,
+      subject: 'Reset your password on your VNDR account',
+      html: makeANiceEmail(`<p>Please click the following link to reset your password:</p>
+      <a href="${
+        process.env.FRONTEND_URL
+      }/reset?resetToken=${resetToken}">Click Here to Reset</a>`),
+    });
+    // return the message
     return { message: 'Thanks!' };
   },
   async resetPassword(parent, args, ctx, info) {
