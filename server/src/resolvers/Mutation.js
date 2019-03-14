@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const { randomBytes } = require('crypto');
 const { promisify } = require('util');
 const { transport, makeANiceEmail } = require('../mail');
+const { hasPermission } = require('../utils');
 
 const Mutations = {
   async createItem(parent, args, ctx, info) {
@@ -168,6 +169,42 @@ const Mutations = {
     });
     // return the new user
     return updatedUser;
+  },
+  async updatePermissions(parent, args, ctx, info) {
+    // check if user is logged in
+    if (!ctx.request.userId) {
+      throw new Error('You must be logged in!');
+    }
+    // query the curr user
+    const currentUser = await ctx.db.query.user(
+      {
+        where: {
+          id: ctx.request.userId,
+        },
+      },
+      info
+    );
+    // check if user has permission to change
+    hasPermission(currentUser, ['ADMIN', 'PERMISSIONUPDATE']);
+    // update permissions
+    return ctx.db.mutation.updateUser(
+      {
+        // data that needs to be updates
+        data: {
+          // permissions need to be set to the updated permissions that is coming in from args
+          permissions: {
+            // because permissions is its own enum, have to use prisma set syntax
+            set: args.permissions,
+          },
+        },
+        // where data needs to be updated
+        where: {
+          // not using ctx.userId since permission change can occur for another user
+          id: args.userId,
+        },
+      },
+      info
+    );
   },
 };
 
