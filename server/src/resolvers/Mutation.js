@@ -279,10 +279,11 @@ const Mutations = {
       info
     );
   },
-  createOrder(parent, args, ctx, info) {
+  async createOrder(parent, args, ctx, info) {
     // query current user, make sure user is signed in
     const { userId } = ctx.request;
-    if (!userId) throw new Error('You must be signed in to complete this order.');
+    if (!userId)
+      throw new Error('You must be signed in to complete this order.');
     const user = await ctx.db.query.user(
       { where: { id: userId } },
       `{
