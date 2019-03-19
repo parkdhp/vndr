@@ -1,6 +1,7 @@
-endpoint: ${env:PRISMA_ENDPOINT}
+#endpoint: ${env:PRISMA_ENDPOINT}
+endpoint: https://vndr-production-aa1f19c01e.herokuapp.com/vndr-prod/prod
 datamodel: datamodel.prisma
-# secret: ${env.PRISMA_SECRET}
+secret: ${env:PRISMA_SECRET}
 generate:
   - generator: graphql-schema
     output: ./src/generated/
